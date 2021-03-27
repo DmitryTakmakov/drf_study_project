@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from mimesis.schema import Field, Schema
 
-from library.models import Author
+from usersapp.models import User
 
 
 class Command(BaseCommand):
@@ -11,17 +11,27 @@ class Command(BaseCommand):
                             action='store')
 
     def handle(self, *args, **options):
-        Author.objects.all().delete()
+        User.objects.all().delete()
         _ = Field('en')
         description = (
             lambda: {
                 'uuid': _('uuid'),
+                'username': _('text.word'),
+                'password': _('person.password', length=12),
                 'first_name': _('person.first_name'),
                 'last_name': _('person.last_name'),
-                'birthday_year': _('datetime.year', minimum=1950, maximum=2000)
+                'email': _('person.email', unique=True)
             }
         )
         schema = Schema(schema=description)
         data_list = list(schema.create(iterations=options['iterations']))
         for obj in data_list:
-            Author.objects.create(**obj)
+            User.objects.create(**obj)
+
+        User.objects.create_superuser(
+            username='super_admin',
+            email='super@localhost',
+            password='super_password',
+            first_name='super',
+            last_name='admin'
+        )

@@ -11,6 +11,7 @@ default:
     - django.contrib.staticfiles
     - rest_framework
     - library
+    - usersapp
   MIDDLEWARE:
     - django.middleware.security.SecurityMiddleware
     - django.contrib.sessions.middleware.SessionMiddleware
@@ -35,6 +36,7 @@ default:
     default:
       ENGINE: django.db.backends.sqlite3
       NAME: db.sqlite3
+  AUTH_USER_MODEL: usersapp.User
   AUTH_PASSWORD_VALIDATORS:
     - NAME: django.contrib.auth.password_validation.UserAttributeSimilarityValidator
     - NAME: django.contrib.auth.password_validation.MinimumLengthValidator
