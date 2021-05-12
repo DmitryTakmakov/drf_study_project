@@ -1,22 +1,31 @@
 import React from "react";
 import './App.css';
-import AuthorList from "./components/Author";
+import UsersList from "./components/User";
+import HeaderMenu from "./components/Header";
 import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'authors': []
+      'users': [],
+      'apis': []
     };
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/authors')
+    axios.get('http://localhost:8000/api/')
       .then(response => {
-        const authors = response.data;
+        const available_api_array = Object.keys(response.data);
         this.setState({
-          'authors': authors
+          'apis': available_api_array
+        });
+      }).catch(error => console.log(error));
+    axios.get('http://localhost:8000/api/users')
+      .then(response => {
+        const users = response.data;
+        this.setState({
+          'users': users
         }
         );
       }).catch(error => console.log(error));
@@ -25,7 +34,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <AuthorList authors={this.state.authors}/>
+        <HeaderMenu apis={this.state.apis}/>
+        <UsersList users={this.state.users}/>
       </div>
     );
   }
