@@ -13,8 +13,8 @@ default:
     - rest_framework
     - corsheaders
     # my apps
-    - library
     - usersapp
+    - todosapp
   MIDDLEWARE:
     - django.middleware.security.SecurityMiddleware
     - django.contrib.sessions.middleware.SessionMiddleware
